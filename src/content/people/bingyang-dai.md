@@ -4,7 +4,7 @@ nameZh: ''           # TODO: 中文名 — 问本人，不要猜
 role: pi
 title: Research Assistant Professor
 order: 4
-photo: ''            # TODO: /images/people/bingyang-dai.jpg
+photo: /images/people/bingyang-dai.jpg
 email: bingyang.dai@polyu.edu.hk
 interests:
   - Bone immunometabolism

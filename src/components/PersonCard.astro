@@ -58,9 +58,16 @@ const labels: Record<string, string> = {
   .person { display: grid; gap: 1rem; }
 
   .photo { background: var(--paper-2); border-radius: 2px; overflow: hidden; }
-  .photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+    .photo img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    /* PolyU staff portraits are taller than the card; bias the crop upward so
+       the subject keeps headroom instead of losing the top of the head. */
+    object-position: center 22%;
+  }
   .photo-fallback {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
     display: grid;
     place-items: center;
     background: var(--paper-2);

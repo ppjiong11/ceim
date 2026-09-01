@@ -1,4 +1,6 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -53,6 +55,29 @@ const groupByRole = (people: Person[]) =>
     .map((r) => ({ ...r, people: people.filter((p) => p.data.role === r.role) }))
     .filter((r) => r.people.length > 0);
 
+/**
+ * Lab-life photos are driven by the filesystem rather than frontmatter:
+ * anything dropped in public/images/lab/<person-id>/ shows up in that person's
+ * section, in filename order. Nothing to configure, and nothing to break — a
+ * folder that does not exist simply yields no strip, so there are never broken
+ * images on the live site.
+ */
+const LAB_PHOTO_DIR = 'public/images/lab';
+const IMAGE_EXT = /\.(jpe?g|png|webp|avif)$/i;
+
+function labPhotos(personId: string): string[] {
+  const dir = path.join(process.cwd(), LAB_PHOTO_DIR, personId);
+  try {
+    return fs
+      .readdirSync(dir)
+      .filter((f) => IMAGE_EXT.test(f) && !f.startsWith('.'))
+      .sort()
+      .map((f) => `/images/lab/${personId}/${f}`);
+  } catch {
+    return [];
+  }
+}
+
 /** Supervisor sections, in the same order the faculty appear above. */
 const facultyOrder = [...(director ? [director] : []), ...piEntries];
 
@@ -61,9 +86,9 @@ const supervised = facultyOrder
     const theirs = members.filter((m) =>
       m.data.supervisors.some((s) => s.id === f.id)
     );
-    return { faculty: f, roleGroups: groupByRole(theirs) };
+    return { faculty: f, roleGroups: groupByRole(theirs), photos: labPhotos(f.id) };
   })
-  .filter((g) => g.roleGroups.length > 0);
+  .filter((g) => g.roleGroups.length > 0 || g.photos.length > 0);
 
 /** Anyone whose supervisor is unset or points outside the faculty. */
 const placed = new Set(
@@ -99,11 +124,21 @@ const unplaced = groupByRole(members.filter((m) => !placed.has(m.id)));
     </section>
   )}
 
-  {supervised.map(({ faculty, roleGroups }) => (
+  {supervised.map(({ faculty, roleGroups, photos }) => (
     <section class="wrap team">
       <h2 class="team-title">
         {faculty.data.name}<span class="team-title-suffix">group</span>
       </h2>
+
+      {photos.length > 0 && (
+        <div class="lab-life">
+          <ul class="strip">
+            {photos.map((src) => (
+              <li><img src={url(src)} alt="" loading="lazy" /></li>
+            ))}
+          </ul>
+        </div>
+      )}
       {roleGroups.map((r) => (
         <div class="role-block">
           <h3 class="role-label">{r.label}</h3>
@@ -211,6 +246,24 @@ const unplaced = groupByRole(members.filter((m) => !placed.has(m.id)));
     color: var(--ink-3);
     margin-left: 0.6rem;
     vertical-align: 0.25em;
+  }
+
+  /* --- lab life ---------------------------------------------------------- */
+  .lab-life { margin-bottom: 2.75rem; }
+  .strip {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+  .strip img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 2px;
+    background: var(--paper-2);
   }
 
   .role-block + .role-block { margin-top: 2.5rem; }

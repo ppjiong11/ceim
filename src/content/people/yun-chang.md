@@ -4,7 +4,7 @@ nameZh: ''            # TODO: add Chinese name — ask, do not guess the charact
 role: pi
 title: Assistant Professor and Presidential Young Scholar
 order: 2
-photo: ''            # TODO: /images/people/yun-chang.jpg
+photo: /images/people/yun-chang.jpg
 email: yun-bme.chang@polyu.edu.hk
 interests:
   - Stem cell immunoengineering

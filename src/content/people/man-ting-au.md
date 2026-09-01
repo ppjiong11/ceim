@@ -4,7 +4,7 @@ nameZh: ''           # TODO: 中文名 — 问本人，不要猜
 role: pi
 title: Research Assistant Professor
 order: 3
-photo: ''            # TODO: /images/people/man-ting-au.jpg
+photo: /images/people/man-ting-au.jpg
 email: manting.au@polyu.edu.hk
 interests:
   - Osteoarthritis

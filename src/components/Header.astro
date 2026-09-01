@@ -10,10 +10,17 @@ const isActive = (href: string) => {
 
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href={url('/')}>
-      <span class="brand-name">{site.name}</span>
-      <span class="brand-sub">{site.institutionShort} · Biomedical Engineering</span>
-    </a>
+    <div class="lockup">
+      <a class="crest" href={site.institutionUrl} rel="noopener"
+         aria-label={`${site.institution} — ${site.department}`}>
+        <img src={url('/images/brand/polyu-logo.png')} alt="" width="480" height="92" />
+      </a>
+
+      <a class="brand" href={url('/')}>
+        <span class="brand-name">{site.name}</span>
+        <span class="brand-sub">{site.department}</span>
+      </a>
+    </div>
 
     <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">
       <span class="visually-hidden">Menu</span>
@@ -64,7 +71,21 @@ const isActive = (href: string) => {
     min-height: 5rem;
   }
 
-  .brand { text-decoration: none; display: block; line-height: 1.15; }
+  /* Institution mark and group wordmark sit side by side, divided by a rule:
+     the group reads as part of PolyU rather than as a separate brand. */
+  .lockup { display: flex; align-items: center; gap: 1.1rem; min-width: 0; }
+
+  .crest { display: block; flex: none; line-height: 0; }
+  .crest img { width: 152px; height: auto; }
+  .crest:hover { opacity: 0.72; }
+
+  .brand {
+    text-decoration: none;
+    display: block;
+    line-height: 1.15;
+    padding-left: 1.1rem;
+    border-left: 1px solid var(--rule);
+  }
   /* The group name is long, so the wordmark is a deliberate two-line lockup
      rather than a single line that would crowd the navigation. */
   .brand-name {
@@ -78,7 +99,7 @@ const isActive = (href: string) => {
   }
   .brand-sub {
     display: block;
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     letter-spacing: 0.09em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -123,6 +144,15 @@ const isActive = (href: string) => {
     transition: transform .2s ease, opacity .2s ease;
   }
   .bars i + i { margin-top: 6px; }
+
+  @media (max-width: 1080px) {
+    .crest img { width: 124px; }
+  }
+
+  @media (max-width: 900px) {
+    .crest { display: none; }
+    .brand { padding-left: 0; border-left: 0; }
+  }
 
   @media (max-width: 800px) {
     .menu-toggle { display: block; }

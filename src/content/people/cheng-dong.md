@@ -4,7 +4,7 @@ nameZh: 董澄
 role: director
 title: Chair Professor of Cell Engineering and ImmunoMedicine
 order: 1
-photo: ''            # TODO: /images/people/cheng-dong.jpg
+photo: /images/people/cheng-dong.jpg
 email: cheng.dong@polyu.edu.hk
 interests:
   - Cell engineering
