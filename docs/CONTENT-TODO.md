@@ -7,6 +7,13 @@
 
 ## 🔴 必须有，否则不能上线
 
+### 0. 把仓库转移到 Organization — 找 PI
+
+仓库现在在**个人账号**下，是为了快速出 demo。**对外公布网址之前必须转走**，否则实验室的官网就绑在一个人的 GitHub 账号上了——这正是最开始想避免的那个问题。
+
+具体步骤见 [DEPLOY.md](DEPLOY.md#️-outstanding-transfer-this-repository)。建 organization 是免费的，两分钟。
+
+
 ### 1. 首页那句大标题 — 找 PI 本人
 
 现在站上是我起草的：

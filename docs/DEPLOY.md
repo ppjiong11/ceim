@@ -6,12 +6,28 @@ anything.
 
 ## GitHub Pages (current)
 
-1. Create the repository **under a GitHub Organization, not a personal account.**
-   Add the PI as an owner. Otherwise the site becomes a single point of failure
-   attached to one person's account — the same problem as a lab site living in a
-   graduate's Wix login.
-2. Settings → Pages → Source: **GitHub Actions**.
-3. Push to `main`. `.github/workflows/deploy.yml` builds and publishes.
+1. Settings → Pages → Source: **GitHub Actions**.
+2. Push to `main`. `.github/workflows/deploy.yml` builds and publishes.
+
+### ⚠️ Outstanding: transfer this repository
+
+The repo currently sits on a **personal account** so a demo could go up quickly.
+That is deliberate but temporary. Until it moves, the lab's website is a single
+point of failure attached to one individual — the same problem as a lab site
+living in a graduate's Wix login, just in a different wrapper.
+
+**Before the site is announced or linked from anywhere official**, transfer it:
+
+1. Create a GitHub Organization (free) — e.g. `changlab-polyu`.
+2. Add the PI and the lab's technical contact as **owners**, not members.
+3. Repo → Settings → General → Danger Zone → **Transfer ownership**.
+   History, issues and stars are preserved.
+4. Re-enable Pages on the transferred repo (Settings → Pages → Source: GitHub
+   Actions) — Pages settings do not always survive a transfer.
+5. Update the `SITE` and `BASE` repository variables to match the new URL.
+
+Renaming the repo to `<org>.github.io` at that point gives a clean root URL and
+lets `BASE` go back to `/`.
 
 ### Setting the URL
 
