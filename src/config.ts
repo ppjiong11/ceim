@@ -24,6 +24,18 @@ export const site = {
   institutionUrl: 'https://www.polyu.edu.hk/bme/',
 } as const;
 
+/**
+ * Keep the site out of search results until the content is signed off.
+ *
+ * GitHub Pages on a free plan requires a public repository, so "not finished"
+ * cannot mean "not reachable". This is the next best thing: the pages are live
+ * for anyone with the link — which is what a demo needs — but search engines
+ * are told not to index them.
+ *
+ * SET THIS TO false AT LAUNCH, once docs/CONTENT-TODO.md is clear.
+ */
+export const noindex = true;
+
 export const pi = {
   name: 'Cheng Dong',
   displayName: 'Professor Cheng DONG',

@@ -6,7 +6,7 @@ import '../styles/global.css';
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site, url } from '../config';
+import { noindex, site, url } from '../config';
 
 interface Props {
   /** Page title. The lab name is appended automatically. */
@@ -38,6 +38,7 @@ const ogImage = image ? new URL(url(image), canonical) : undefined;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical.href} />
 
     <meta property="og:type" content="website" />

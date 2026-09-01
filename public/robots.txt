@@ -1,0 +1,5 @@
+# The site is public because GitHub Pages requires it, not because the content
+# is finished. Remove this file and set `noindex = false` in src/config.ts at
+# launch — see docs/CONTENT-TODO.md.
+User-agent: *
+Disallow: /
