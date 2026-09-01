@@ -15,7 +15,7 @@ links:
   website: https://www.polyu.edu.hk/bme/people/academic-and-teaching-staff/prof-yun-chang/
 ---
 
-Yun Chang leads the lab's work on gene editing and directed differentiation of
+Yun Chang works on gene editing and directed differentiation of
 human pluripotent stem cells, combined with functionalised biomaterials, for
 disease immunotherapy.
 
