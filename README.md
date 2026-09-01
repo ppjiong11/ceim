@@ -1,7 +1,12 @@
-# Chang Lab website
+# Cell Engineering & ImmunoMedicine
 
-Static site for the lab of Professor Yun CHANG, Department of Biomedical
+Static site for the group of Professor Cheng DONG, Department of Biomedical
 Engineering, The Hong Kong Polytechnic University.
+
+The group covers four faculty — Prof. Cheng Dong (Chair Professor, group lead)
+and three principal investigators: Prof. Yun Chang, Dr Man Ting Au and
+Dr Bingyang Dai. Research is organised by scientific theme rather than by
+investigator, so the site reads as one group rather than three labs.
 
 Built with [Astro](https://astro.build). No database, no server — the build
 produces plain HTML/CSS that can be hosted anywhere, which is deliberate. See
@@ -22,12 +27,14 @@ Node 20 or newer.
 
 ```
 src/
-  config.ts              Lab name, PI details, navigation, homepage statement.
+  config.ts              Group name, lead PI details, navigation, homepage
+                         statement.
                          Start here — most "can you change X" requests live here.
   content.config.ts      Schemas for the content collections below.
   content/
     publications.yaml    All papers, one file.
-    people/*.md          One file per member.
+    people/*.md          One file per member. `role: director` is the group
+                         lead; `role: pi` are the principal investigators.
     news/*.md            One file per item.
     research/*.md        One file per research area.
     openings/*.md        One file per advertised position.
@@ -62,3 +69,6 @@ grep -rn "TODO" src/content src/config.ts
   rules, and generous whitespace. Adding a second accent will break the look.
 - The homepage follows the reference sites' formula: one question, one sentence
   of method, one link. Resist adding more.
+- Research is organised by theme, not by person. Each theme deliberately spans
+  more than one investigator — that is what stops the site reading as three
+  separate labs sharing a domain.

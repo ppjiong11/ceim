@@ -21,7 +21,7 @@ interface Props {
 const { title, description, image, bareTitle = false } = Astro.props;
 
 const pageTitle = !title
-  ? `${site.name} — ${site.longName}`
+  ? `${site.name} — ${site.institutionShort}`
   : bareTitle
     ? title
     : `${title} · ${site.name}`;

@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
-import { pi, site } from '../config';
+import { site } from '../config';
 
 const entries = (await getCollection('openings', ({ data }) => !data.draft))
   .sort((a, b) => a.data.order - b.data.order);
@@ -10,6 +10,11 @@ const entries = (await getCollection('openings', ({ data }) => !data.draft))
 const openings = await Promise.all(
   entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
 );
+
+// Applicants should write to the PI whose work matches, not to a generic inbox.
+const faculty = (await getCollection('people', ({ data }) =>
+  !data.draft && !data.alumnus && (data.role === 'pi' || data.role === 'director')
+)).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base
@@ -41,20 +46,34 @@ const openings = await Promise.all(
 
       <aside class="how">
         <h2 class="aside-title">How to apply</h2>
-        <p>Email {pi.displayName} with:</p>
+        <p>
+          Write to the investigator whose work is closest to what you want to do —
+          not to all of them, and not to a generic address. Include:
+        </p>
         <ol>
           <li>A CV, including your publication list.</li>
           <li>
             A short note — a paragraph is enough — on what you want to work on and
-            why this lab.
+            why this group.
           </li>
           <li>Contact details for two referees.</li>
         </ol>
         <p>
-          Please put the position in the subject line. A generic mass email is
-          easy to spot and usually goes unanswered.
+          Put the position in the subject line. A generic mass email is easy to
+          spot and usually goes unanswered.
         </p>
-        <p class="mail"><a class="link" href={`mailto:${pi.email}`}>{pi.email}</a></p>
+
+        <ul class="who">
+          {faculty.map((f) => (
+            <li>
+              <span class="who-name">{f.data.name}</span>
+              {f.data.interests.length > 0 && (
+                <span class="who-topics">{f.data.interests.join(' · ')}</span>
+              )}
+              {f.data.email && <a href={`mailto:${f.data.email}`}>{f.data.email}</a>}
+            </li>
+          ))}
+        </ul>
 
         <p class="note">
           Formal admission for research postgraduate places runs through
@@ -125,7 +144,19 @@ const openings = await Promise.all(
   }
   .how ol { padding-left: 1.15em; margin: 0 0 1.1em; }
   .how li { margin-bottom: 0.45em; }
-  .mail { margin-top: 1.5rem; }
+  .who {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    gap: 1rem;
+  }
+  .who li { display: grid; gap: 0.15rem; }
+  .who-name { font-weight: 600; color: var(--ink); }
+  .who-topics { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.5; }
+  .who a { color: var(--accent); text-decoration: none; font-size: var(--t-micro); }
+  .who a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
   .note {
     margin-top: 1.5rem;
     padding-top: 1.25rem;

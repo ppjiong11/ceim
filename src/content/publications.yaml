@@ -12,7 +12,7 @@
 
 - id: car-neutrophils-in-vivo-glioma-2026
   title: CAR-neutrophils produced in vivo to treat glioma
-  authors: ['**Yun Chang**', 'Kunlun Shao', 'Hanyi Li', 'Gyuhyung Jin', 'R. Timothy Bentley', 'Cheng Dong', 'Xiaojun Lian', 'Xiaoping Bao']
+  authors: ['**Yun Chang**', 'Kunlun Shao', 'Hanyi Li', 'Gyuhyung Jin', 'R. Timothy Bentley', '**Cheng Dong**', 'Xiaojun Lian', 'Xiaoping Bao']
   journal: Nature Biomedical Engineering
   year: 2026
   doi: 10.1038/s41551-026-01656-0
@@ -24,12 +24,12 @@
 
 - id: fitc-folate-bispecific-adapter-car-cocktail-2025
   title: Novel strategy for tumor immunotherapy using FITC-folate bispecific adapter bridged CAR immune cell cocktails
-  authors: ['Bowen Liu', 'Jiaming Shen', 'Yuxuan Wu', 'Xiaoping Bao', 'Cheng Dong', '**Yun Chang**']
+  authors: ['Bowen Liu', 'Jiaming Shen', 'Yuxuan Wu', 'Xiaoping Bao', '**Cheng Dong**', '**Yun Chang**']
   journal: Bioactive Materials
   year: 2025
   doi: 10.1016/j.bioactmat.2025.06.025
   type: article
-  featured: true
+  featured: false
   summary: >-
     A universal adapter lets one engineered cell product be redirected against
     different tumour antigens without re-engineering the cells.
@@ -57,7 +57,7 @@
   pages: '111128'
   doi: 10.1016/j.celrep.2022.111128
   type: article
-  featured: true
+  featured: false
   summary: >-
     The first CAR-neutrophils differentiated from human pluripotent stem cells —
     a renewable, off-the-shelf source of engineered innate immune cells.
@@ -92,7 +92,7 @@
 
 - id: adoptive-car-multimodal-2024
   title: Advancements in adoptive CAR immune cell immunotherapy synergistically combined with multimodal approaches for tumor treatment
-  authors: ['**Yun Chang**', 'Mingyang Chang', 'Xiaoping Bao', 'Cheng Dong']
+  authors: ['**Yun Chang**', 'Mingyang Chang', 'Xiaoping Bao', '**Cheng Dong**']
   journal: Bioactive Materials
   year: 2024
   doi: 10.1016/j.bioactmat.2024.08.046
@@ -108,7 +108,7 @@
 
 - id: ipsc-regenerative-aging-2025
   title: Induced pluripotent stem cells-based regenerative therapies in treating human aging-related functional decline and diseases
-  authors: ['Peng Yu', 'Bowen Liu', 'Cheng Dong', '**Yun Chang**']
+  authors: ['Peng Yu', 'Bowen Liu', '**Cheng Dong**', '**Yun Chang**']
   journal: Cells
   year: 2025
   volume: '14'
@@ -118,7 +118,7 @@
 
 - id: hsc-aging-rejuvenation-2025
   title: 'Hematopoietic stem cell aging: mechanisms, microenvironment influences, and rejuvenation strategies'
-  authors: ['Jiaxin Cui', 'Xin Li', 'Bowen Liu', 'Cheng Dong', '**Yun Chang**']
+  authors: ['Jiaxin Cui', 'Xin Li', 'Bowen Liu', '**Cheng Dong**', '**Yun Chang**']
   journal: Bioengineering
   year: 2025
   volume: '12'
@@ -168,7 +168,7 @@
 
 - id: auricular-reconstruction-2026
   title: Unconventional auricular reconstruction using controlled scaffold buckling and chondrogenic cocktail containing muscle-derived cells
-  authors: ['Ning Huang', '**Yun Chang**', 'Chunyi Wen', 'Cheng Dong', 'Chuanbin Mao', 'Dai Fei Elmer Ker']
+  authors: ['Ning Huang', '**Yun Chang**', 'Chunyi Wen', '**Cheng Dong**', 'Chuanbin Mao', 'Dai Fei Elmer Ker']
   journal: Bioactive Materials
   year: 2026
   doi: 10.1016/j.bioactmat.2026.05.049
@@ -236,4 +236,148 @@
   journal: Biotechnology and Bioengineering
   year: 2020
   doi: 10.1002/bit.27352
+  type: article
+
+# ---------------------------------------------------------------------------
+# M. T. AU — seeded from her ORCID (0000-0003-1786-6006), so author matching
+# here is exact. Still incomplete; replace from a .bib export.
+# ---------------------------------------------------------------------------
+
+- id: au-endothelin-sars-cov2-oa-2024
+  title: Blockade of endothelin receptors mitigates SARS-CoV-2-induced osteoarthritis
+  authors: ['**Man Ting Au**', 'Jianbin Ni', 'Kaiming Tang', 'Wei Wang', 'Lin Zhang', 'Shuofeng Yuan', 'Chunyi Wen']
+  journal: Nature Microbiology
+  year: 2024
+  doi: 10.1038/s41564-024-01802-x
+  type: article
+  featured: true
+  summary: >-
+    SARS-CoV-2 infection damages joints through endothelin signalling — and
+    blocking the endothelin receptor prevents it.
+
+- id: au-et1-chondrocyte-senescence-2020
+  title: Endothelin-1 induces chondrocyte senescence and cartilage damage via endothelin receptor type B in a post-traumatic osteoarthritis mouse model
+  authors: ['**Man Ting Au**', 'Zhiyu Liu', 'Limin Rong', 'Yongping Zheng', 'Chunyi Wen']
+  journal: Osteoarthritis and Cartilage
+  year: 2020
+  doi: 10.1016/j.joca.2020.08.006
+  type: article
+
+- id: au-mos2-aunr-oa-pain-2021
+  title: Nerve growth factor-targeted molecular theranostics based on molybdenum disulfide nanosheet-coated gold nanorods for osteoarthritis pain
+  authors: ['**Man Ting Au**', 'Jingyu Shi', 'Yiwei Fan', 'Jianbin Ni', 'Chunyi Wen', 'Mo Yang']
+  journal: ACS Nano
+  year: 2021
+  doi: 10.1021/acsnano.1c02454
+  type: article
+
+- id: au-lung-et1-skeletal-injury-2026
+  title: Lung epithelial endothelin-1 drives iron dysregulation and skeletal injury after SARS-CoV-2 infection
+  authors: ['Jianbin Ni', '**Man Ting Au**', 'Kaiming Tang', 'Fangyi Zhao', 'Wei Wang', 'Chunyi Wen']
+  journal: Cell Reports
+  year: 2026
+  doi: 10.1016/j.celrep.2026.117841
+  type: article
+
+- id: au-endothelial-chondrocyte-senescence-2026
+  title: Endothelial dysfunction contributes to chondrocyte senescence associated with insulin-like growth factor-binding protein-6 in a spontaneously hypertensive rat model
+  authors: ['Ying Zhang', 'Ka Ching', 'Lin Zhang', '**Man Ting Au**', 'Chunyi Wen']
+  journal: Journal of the American Heart Association
+  year: 2026
+  doi: 10.1161/jaha.124.042132
+  type: article
+
+- id: au-covid-joint-ageing-2022
+  title: 'COVID-19 in joint ageing and osteoarthritis: current status and perspectives'
+  authors: ['Marianne Lauwers', '**Man Ting Au**', 'Shuofeng Yuan', 'Chunyi Wen']
+  journal: International Journal of Molecular Sciences
+  year: 2022
+  doi: 10.3390/ijms23020720
+  type: review
+
+# ---------------------------------------------------------------------------
+# B. DAI — seeded by author + affiliation + topic filter. Author matching is
+# NOT exact ("Dai B" is common); verify before publishing.
+# ---------------------------------------------------------------------------
+
+- id: dai-macrophage-ecm-architecture-2026
+  title: 'Macrophages: redefining extracellular matrix architecture through phenotypic switches as therapeutic targets'
+  authors: ['**Bingyang Dai**', 'Long Zheng', 'James Chung-Wai Cheung', 'Yufeng Long', 'Chunyi Wen', 'Ling Qin', '**Cheng Dong**']
+  journal: Biomaterials
+  year: 2026
+  doi: 10.1016/j.biomaterials.2026.124063
+  type: review
+
+- id: dai-osteopontin-bone-homeostasis-2022
+  title: Macrophages in epididymal adipose tissue secrete osteopontin to regulate bone homeostasis
+  authors: ['**Bingyang Dai**', 'Jiankun Xu', 'Xu Li', 'Le Huang', 'Wenxue Tong', 'Ling Qin']
+  journal: Nature Communications
+  year: 2022
+  doi: 10.1038/s41467-021-27683-w
+  type: article
+  featured: true
+  summary: >-
+    Fat tissue signals to bone. Macrophages far from the skeleton release
+    osteopontin that reaches it and changes how bone is remodelled.
+
+- id: dai-osteopontin-integrin-oa-2023
+  title: Blockage of osteopontin-integrin β3 signaling in infrapatellar fat pad attenuates osteoarthritis in mice
+  authors: ['**Bingyang Dai**', 'Yuwei Zhu', 'Xu Li', 'Wenxue Tong', 'Jiankun Xu', 'To Ngai', 'Ling Qin']
+  journal: Advanced Science
+  year: 2023
+  doi: 10.1002/advs.202300897
+  type: article
+
+- id: dai-glucocorticoid-bone-immunometabolism-2024
+  title: Excess glucocorticoids inhibit murine bone turnover via modulating the immunometabolism of the skeletal microenvironment
+  authors: ['Xu Li', 'Tongzhou Liang', '**Bingyang Dai**', 'Liang Chang', 'Jiankun Xu', 'Ling Qin']
+  journal: Journal of Clinical Investigation
+  year: 2024
+  doi: 10.1172/jci166795
+  type: article
+
+- id: dai-tendon-bone-membrane-2025
+  title: Tissue mimetic membranes for healing augmentation of the tendon-bone interface in rotator cuff repair
+  authors: ['Yuwei Zhu', '**Bingyang Dai**', 'Shian Zhang', 'Chunyi Wen', 'Ling Qin', 'Jiankun Xu', 'To Ngai']
+  journal: Advanced Materials
+  year: 2025
+  doi: 10.1002/adma.202407358
+  type: article
+
+- id: dai-mgo-bandage-cortical-bone-2022
+  title: Biosynthesized bandages carrying magnesium oxide nanoparticles induce cortical bone formation by modulating endogenous periosteal cells
+  authors: ['Xu Li', '**Bingyang Dai**', 'Jiaxin Guo', 'Yuwei Zhu', 'Wenxue Tong', 'To Ngai', 'Ling Qin']
+  journal: ACS Nano
+  year: 2022
+  doi: 10.1021/acsnano.2c04747
+  type: article
+
+- id: dai-nanoparticle-cartilage-2021
+  title: 'Nanoparticle-cartilage interaction: pathology-based intra-articular drug delivery for osteoarthritis therapy'
+  authors: ['Xu Li', '**Bingyang Dai**', 'Jiaxin Guo', 'Lizhen Zheng', 'Jiankun Xu', 'Ling Qin']
+  journal: Nano-Micro Letters
+  year: 2021
+  doi: 10.1007/s40820-021-00670-y
+  type: review
+
+# ---------------------------------------------------------------------------
+# C. DONG — PolyU-era only. "Dong C" is heavily shared at PolyU (chemistry,
+# atmospheric science, photonics), so an automated sweep is unreliable; his
+# Penn State record is not represented here at all. MUST come from his own list.
+# ---------------------------------------------------------------------------
+
+- id: dong-hpsc-neutrophil-forward-programming-2025
+  title: Forward programming of hPSCs to neutrophils using chemically defined media
+  authors: ['Hannah E. Hall', 'Xiaoping Bao', '**Cheng Dong**', 'Xiaojun L. Lian']
+  journal: Stem Cell Research & Therapy
+  year: 2025
+  doi: 10.1186/s13287-025-04147-2
+  type: article
+
+- id: dong-mitochondria-transfer-angiogenesis-2026
+  title: Mitochondria transfer from myocytes to endothelial cells promotes angiogenesis in skeletal muscle
+  authors: ['Yufeng Long', 'Ling Qin', '**Bingyang Dai**', '**Cheng Dong**', 'Wing-Hoi Cheung', 'Dazhi Yang']
+  journal: Mitochondrion
+  year: 2026
+  doi: 10.1016/j.mito.2026.102116
   type: article

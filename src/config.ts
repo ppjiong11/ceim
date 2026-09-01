@@ -7,15 +7,17 @@
  */
 
 export const site = {
-  /** Short name used in the header and page titles. */
-  name: 'Chang Lab',
-  /** Descriptive name used on the homepage and in metadata. TODO: confirm with PI. */
-  longName: 'Stem Cell Immunoengineering Laboratory',
-  tagline: 'Building immune cells from stem cells.',
+  /** Full name. Used in page titles and the header wordmark. */
+  name: 'Cell Engineering & ImmunoMedicine',
+  /** Abbreviation, for tight spaces. */
+  shortName: 'CEIM',
+  /** Expanded descriptor used on the homepage and in metadata. */
+  longName: 'Cell Engineering and ImmunoMedicine',
+  tagline: 'Engineering immune cells to treat cancer, joint disease and bone loss.',
   description:
-    'The Chang Lab at The Hong Kong Polytechnic University engineers human ' +
-    'pluripotent stem cells into chimeric antigen receptor immune cells, and ' +
-    'pairs them with functional biomaterials, for cancer immunotherapy.',
+    'The Cell Engineering and ImmunoMedicine group at The Hong Kong Polytechnic ' +
+    'University engineers immune cells — and the biomaterials that direct them — ' +
+    'for cancer immunotherapy, osteoarthritis and musculoskeletal regeneration.',
   department: 'Department of Biomedical Engineering',
   institution: 'The Hong Kong Polytechnic University',
   institutionShort: 'PolyU',
@@ -23,18 +25,19 @@ export const site = {
 } as const;
 
 export const pi = {
-  name: 'Yun Chang',
-  displayName: 'Professor Yun CHANG',
-  /** TODO: add the PI's Chinese name — do not guess the characters. */
-  nameZh: '',
-  title: 'Assistant Professor and Presidential Young Scholar',
-  email: 'yun-bme.chang@polyu.edu.hk',
-  phone: '+852 2766 7612',
-  office: 'ST421c',
+  name: 'Cheng Dong',
+  displayName: 'Professor Cheng DONG',
+  nameZh: '董澄',
+  title: 'Chair Professor of Cell Engineering and ImmunoMedicine',
+  secondTitle: 'Associate Vice President (Knowledge Transfer)',
+  email: 'cheng.dong@polyu.edu.hk',
+  phone: '+852 3400 8811',
+  office: 'M501J',
   polyuProfile:
-    'https://www.polyu.edu.hk/bme/people/academic-and-teaching-staff/prof-yun-chang/',
-  scholar: 'https://scholar.google.com/citations?user=LQsshC8AAAAJ',
-  scholarsHub: 'https://research.polyu.edu.hk/en/persons/yun-chang/',
+    'https://www.polyu.edu.hk/bme/People/Academic-and-Teaching-Staff/Prof-DONG-Cheng',
+  scholarsHub: 'https://research.polyu.edu.hk/en/persons/cheng-dong/',
+  /** TODO: confirm a Google Scholar profile URL for Prof. Dong. */
+  scholar: 'https://research.polyu.edu.hk/en/persons/cheng-dong/',
 } as const;
 
 export const contact = {
@@ -46,8 +49,13 @@ export const contact = {
     'Hung Hom, Kowloon',
     'Hong Kong SAR',
   ],
-  /** Office/lab room numbers. TODO: confirm the lab (bench) room, not just the PI office. */
-  rooms: [{ label: 'PI office', value: pi.office }],
+  /** TODO: confirm the shared lab (bench) rooms, not just the offices. */
+  rooms: [
+    { label: 'C. Dong', value: 'M501J' },
+    { label: 'Y. Chang', value: 'ST421c' },
+    { label: 'M.T. Au', value: 'GH110' },
+    { label: 'B. Dai', value: 'GH139' },
+  ],
 } as const;
 
 /** Primary navigation. Order matters. */
@@ -67,11 +75,11 @@ export const nav = [
  * site that only the PI can write. Get it signed off before launch.
  */
 export const hero = {
-  headline: 'Can we build a patient’s immune system from scratch?',
+  headline:
+    'What decides whether a tumour spreads, a joint degenerates, or a bone heals?',
   subhead:
-    'We engineer human pluripotent stem cells into chimeric antigen receptor ' +
-    'immune cells, and arm them with functional biomaterials, to attack tumours ' +
-    'that today’s therapies cannot reach.',
+    'The same immune cells, making different decisions. We engineer those cells — ' +
+    'and the materials that direct them — so the decision goes our way.',
   ctaLabel: 'Learn more about our research',
   ctaHref: '/research',
 } as const;
