@@ -3,7 +3,7 @@ name: Yun Chang
 nameZh: ''            # TODO: add Chinese name — ask, do not guess the characters
 role: pi
 title: Assistant Professor and Presidential Young Scholar
-order: 1
+order: 2
 photo: ''            # TODO: /images/people/yun-chang.jpg
 email: yun-bme.chang@polyu.edu.hk
 interests:

@@ -52,6 +52,7 @@ const people = defineCollection({
     name: z.string(),
     nameZh: optionalText,
     role: z.enum([
+      'director',
       'pi',
       'postdoc',
       'phd',

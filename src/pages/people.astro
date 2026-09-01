@@ -7,18 +7,26 @@ import { url } from '../config';
 
 const everyone = await getCollection('people', ({ data }) => !data.draft);
 
-const current = everyone
-  .filter((p) => !p.data.alumnus)
-  .sort((a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name));
+const byOrder = (a: typeof everyone[number], b: typeof everyone[number]) =>
+  a.data.order - b.data.order || a.data.name.localeCompare(b.data.name);
 
-const alumni = everyone
-  .filter((p) => p.data.alumnus)
-  .sort((a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name));
+const current = everyone.filter((p) => !p.data.alumnus).sort(byOrder);
+const alumni = everyone.filter((p) => p.data.alumnus).sort(byOrder);
 
-const piEntry = current.find((p) => p.data.role === 'pi');
-const PiBio = piEntry ? (await render(piEntry)).Content : null;
+/** Faculty get their full bio rendered; everyone else gets a card. */
+const withBio = async (entry: typeof everyone[number]) => ({
+  entry,
+  Content: (await render(entry)).Content,
+});
 
-/** Role groups, in the order they appear on the page. */
+const director = current.find((p) => p.data.role === 'director');
+const Director = director ? await withBio(director) : null;
+
+const pis = await Promise.all(
+  current.filter((p) => p.data.role === 'pi').map(withBio)
+);
+
+/** Role groups below faculty, in page order. */
 const groups = [
   { role: 'postdoc',   label: 'Postdoctoral Fellows' },
   { role: 'phd',       label: 'PhD Students' },
@@ -34,20 +42,36 @@ const populated = groups
   .filter((g) => g.members.length > 0);
 ---
 
-<Base title="People" description="Members of the Chang Lab at PolyU Biomedical Engineering.">
+<Base title="People" description="Faculty, researchers and students of the group.">
   <PageHeader eyebrow="People" title="People" />
 
-  {piEntry && (
-    <section class="wrap pi-section">
-      <div class="pi-grid">
-        <div class="pi-card">
-          <PersonCard person={piEntry} />
+  {Director && (
+    <section class="wrap faculty lead-faculty">
+      <div class="faculty-grid director">
+        <div class="portrait">
+          <PersonCard person={Director.entry} />
         </div>
-        <div class="prose pi-bio">
-          <h2>{piEntry.data.title}</h2>
-          {PiBio && <PiBio />}
+        <div class="prose bio">
+          <h2 class="rank">{Director.entry.data.title}</h2>
+          <Director.Content />
         </div>
       </div>
+    </section>
+  )}
+
+  {pis.length > 0 && (
+    <section class="wrap faculty">
+      <h2 class="group-title">Principal Investigators</h2>
+      {pis.map(({ entry, Content }) => (
+        <div class="faculty-grid pi">
+          <div class="portrait">
+            <PersonCard person={entry} />
+          </div>
+          <div class="prose bio">
+            <Content />
+          </div>
+        </div>
+      ))}
     </section>
   )}
 
@@ -63,8 +87,8 @@ const populated = groups
   {populated.length === 0 && (
     <section class="wrap group">
       <p class="empty">
-        The lab is being built. Member profiles will appear here as people join —
-        see <a href={url('/join')}>Join</a>.
+        Student and postdoc profiles will appear here — see
+        {' '}<a href={url('/join')}>Join</a>.
       </p>
     </section>
   )}
@@ -80,18 +104,29 @@ const populated = groups
 </Base>
 
 <style>
-  .pi-section { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
-  .pi-grid {
+  .faculty { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
+  .faculty + .faculty,
+  .faculty + .group,
+  .group + .group { border-top: 1px solid var(--rule); }
+
+  .faculty-grid {
     display: grid;
-    gap: clamp(2rem, 4vw, 4rem);
+    gap: clamp(1.75rem, 4vw, 3.5rem);
     grid-template-columns: 1fr;
     align-items: start;
   }
   @media (min-width: 800px) {
-    .pi-grid { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
+    .director { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
+    .pi       { grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); }
   }
-  .pi-card { max-width: 20rem; }
-  .pi-bio h2 {
+
+  /* Each PI gets their own band so the bios do not run together. */
+  .pi + .pi { margin-top: 2.75rem; padding-top: 2.75rem; border-top: 1px solid var(--rule); }
+
+  .director .portrait { max-width: 20rem; }
+  .pi .portrait { max-width: 15rem; }
+
+  .rank {
     font-family: var(--font-body);
     font-size: var(--t-micro);
     font-weight: 550;
@@ -101,9 +136,10 @@ const populated = groups
     margin: 0 0 1.25rem;
   }
 
+  .bio { font-size: var(--t-body); }
+  .pi .bio { font-size: var(--t-small); color: var(--ink-2); }
+
   .group { padding-block: clamp(2rem, 1rem + 3vw, 3.5rem); }
-  .group + .group { border-top: 1px solid var(--rule); }
-  .pi-section + .group { border-top: 1px solid var(--rule); }
 
   .group-title {
     font-family: var(--font-body);
@@ -112,7 +148,7 @@ const populated = groups
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-3);
-    margin-bottom: 2rem;
+    margin: 0 0 2rem;
   }
 
   .people-grid {
@@ -122,6 +158,5 @@ const populated = groups
   }
 
   .alumni { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); }
-
   .empty { color: var(--ink-2); max-width: var(--measure); }
 </style>
