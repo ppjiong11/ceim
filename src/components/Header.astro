@@ -1,0 +1,148 @@
+---
+import { site, nav, url } from '../config';
+
+const here = Astro.url.pathname.replace(/\/$/, '');
+const isActive = (href: string) => {
+  const target = url(href).replace(/\/$/, '');
+  return here === target || (href !== '/' && here.startsWith(target + '/'));
+};
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={url('/')}>
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-sub">{site.institutionShort} · Biomedical Engineering</span>
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <span class="bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Primary">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a
+              href={url(item.href)}
+              class:list={['nav-link', { current: isActive(item.href) }]}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const header = document.querySelector<HTMLElement>('.site-header');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    header?.classList.toggle('nav-open', !open);
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    min-height: 4.5rem;
+  }
+
+  .brand { text-decoration: none; display: block; line-height: 1.15; }
+  .brand-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    letter-spacing: -0.02em;
+  }
+  .brand-sub {
+    display: block;
+    font-size: var(--t-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 0.15rem;
+  }
+  .brand:hover .brand-name { color: var(--accent); }
+
+  .site-nav ul {
+    display: flex;
+    gap: clamp(1rem, 2.2vw, 2.25rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-link {
+    text-decoration: none;
+    font-size: var(--t-small);
+    font-weight: 450;
+    color: var(--ink-2);
+    padding-block: 0.35rem;
+    border-bottom: 1px solid transparent;
+    transition: color .16s ease, border-color .16s ease;
+  }
+  .nav-link:hover { color: var(--ink); border-color: var(--rule); }
+  .nav-link.current { color: var(--ink); border-color: var(--accent); }
+
+  /* --- mobile ----------------------------------------------------------- */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    padding: 0.6rem;
+    margin-right: -0.6rem;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .bars { display: block; width: 22px; }
+  .bars i {
+    display: block;
+    height: 1px;
+    background: currentColor;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .bars i + i { margin-top: 6px; }
+
+  @media (max-width: 800px) {
+    .menu-toggle { display: block; }
+    .site-nav {
+      position: absolute;
+      inset: 100% 0 auto 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+      display: none;
+    }
+    :global(.site-header.nav-open) .site-nav { display: block; }
+    .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem var(--gutter) 1.5rem;
+    }
+    .site-nav li + li { border-top: 1px solid var(--rule); }
+    .nav-link {
+      display: block;
+      padding: 0.85rem 0;
+      font-size: 1.05rem;
+      border-bottom: 0;
+    }
+    .nav-link.current { color: var(--accent); }
+    :global(.site-header.nav-open) .bars i:first-child { transform: translateY(3.5px) rotate(45deg); }
+    :global(.site-header.nav-open) .bars i:last-child  { transform: translateY(-3.5px) rotate(-45deg); }
+  }
+</style>

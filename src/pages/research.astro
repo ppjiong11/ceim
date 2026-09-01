@@ -1,0 +1,126 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const entries = (await getCollection('research', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Render each body up front so the template stays declarative.
+const sections = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
+);
+---
+
+<Base
+  title="Research"
+  description="Engineered immune cells from human pluripotent stem cells, chimeric antigen receptor design, and responsive biomaterials for cancer immunotherapy."
+>
+  <PageHeader
+    eyebrow="Research"
+    title="Cell therapy that can be manufactured, not harvested."
+    lead="Our work runs from stem cell to solid tumour: differentiating human pluripotent stem cells into immune cells, engineering what those cells recognise, and giving them materials that release a drug only where it is needed."
+  />
+
+  <nav class="toc" aria-label="Research areas">
+    <div class="wrap">
+      <ol>
+        {sections.map(({ entry }, i) => (
+          <li>
+            <a href={`#${entry.id}`}>
+              <span class="n">{String(i + 1).padStart(2, '0')}</span>
+              <span>{entry.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+
+  {sections.map(({ entry, Content }, i) => (
+    <section class="area" id={entry.id}>
+      <div class="wrap">
+        <div class="area-grid">
+          <div class="area-head">
+            <span class="n">{String(i + 1).padStart(2, '0')}</span>
+            <h2>{entry.data.title}</h2>
+            <p class="blurb">{entry.data.blurb}</p>
+            {entry.data.keywords.length > 0 && (
+              <ul class="keywords">
+                {entry.data.keywords.map((k) => <li>{k}</li>)}
+              </ul>
+            )}
+          </div>
+          <div class="prose area-body">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .toc { border-bottom: 1px solid var(--rule); background: var(--paper-2); }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 clamp(1.5rem, 4vw, 3rem);
+  }
+  .toc li { padding-block: 1.1rem; }
+  .toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    text-decoration: none;
+    font-size: var(--t-small);
+    color: var(--ink-2);
+  }
+  .toc a:hover { color: var(--accent); }
+  .n {
+    font-size: var(--t-micro);
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+
+  .area { padding-block: clamp(3.5rem, 2rem + 6vw, 7rem); }
+  .area + .area { border-top: 1px solid var(--rule); }
+  .area:target { scroll-margin-top: 5rem; }
+
+  .area-grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4.5rem);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .area-grid { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); }
+  }
+
+  .area-head .n { display: block; margin-bottom: 0.9rem; }
+  .area-head h2 { font-size: var(--t-h2); margin-bottom: 0.9rem; }
+  .blurb { color: var(--ink-2); font-size: var(--t-small); line-height: 1.6; }
+
+  .keywords {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+  }
+  .keywords li {
+    font-size: var(--t-micro);
+    letter-spacing: 0.05em;
+    color: var(--ink-3);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    padding: 0.2rem 0.65rem;
+  }
+
+  .area-body :global(h2) { font-size: var(--t-h3); font-family: var(--font-body); font-weight: 600; }
+</style>

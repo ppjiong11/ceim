@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Publication from '../components/Publication.astro';
+import { pi } from '../config';
+
+const all = await getCollection('publications');
+
+// Newest first, then alphabetical within a year for a stable order.
+const sorted = all.sort(
+  (a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title)
+);
+
+const byYear = new Map<number, typeof sorted>();
+for (const p of sorted) {
+  const list = byYear.get(p.data.year) ?? [];
+  list.push(p);
+  byYear.set(p.data.year, list);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+
+<Base
+  title="Publications"
+  description="Peer-reviewed publications from the Chang Lab on stem cell immunoengineering, CAR immune cells and biomaterials."
+>
+  <PageHeader eyebrow="Publications" title="Publications">
+    <p class="lead measure">
+      {sorted.length} listed here. The complete and current list is on{' '}
+      <a href={pi.scholar} rel="noopener">Google Scholar</a>; lab members are shown in bold.
+    </p>
+    <nav class="years" aria-label="Jump to year">
+      {years.map((y) => <a href={`#y${y}`}>{y}</a>)}
+    </nav>
+  </PageHeader>
+
+  <div class="wrap section">
+    {years.map((year) => (
+      <section class="year-block" id={`y${year}`}>
+        <h2 class="visually-hidden">{year}</h2>
+        <div class="list">
+          {byYear.get(year)!.map((p) => <Publication pub={p.data} />)}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    margin-top: 1.75rem;
+  }
+  .years a {
+    font-size: var(--t-small);
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    color: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    padding: 0.2rem 0.7rem;
+    transition: border-color .16s ease, color .16s ease;
+  }
+  .years a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .year-block { scroll-margin-top: 5.5rem; }
+  .year-block + .year-block { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+  .list { border-bottom: 1px solid var(--rule); }
+</style>

@@ -1,0 +1,109 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../config';
+
+interface Props {
+  person: CollectionEntry<'people'>;
+  /** Alumni render as a compact single line rather than a card. */
+  compact?: boolean;
+}
+const { person, compact = false } = Astro.props;
+const p = person.data;
+
+const links = Object.entries(p.links).filter(([, v]) => Boolean(v)) as [string, string][];
+const labels: Record<string, string> = {
+  scholar: 'Scholar', orcid: 'ORCID', github: 'GitHub',
+  linkedin: 'LinkedIn', website: 'Website',
+};
+---
+
+{compact ? (
+  <li class="alum">
+    <span class="alum-name">{p.name}</span>
+    {p.title && <span class="alum-role">{p.title}</span>}
+    {p.now && <span class="alum-now">Now: {p.now}</span>}
+  </li>
+) : (
+  <article class="person">
+    <div class="photo">
+      {p.photo
+        ? <img src={url(p.photo)} alt={p.name} loading="lazy" width="600" height="750" />
+        : <div class="photo-fallback" aria-hidden="true"><span>{p.name.charAt(0)}</span></div>}
+    </div>
+
+    <div class="info">
+      <h3 class="name">
+        {p.name}
+        {p.nameZh && <span class="name-zh">{p.nameZh}</span>}
+      </h3>
+      {p.title && <p class="role">{p.title}</p>}
+
+      {p.interests.length > 0 && (
+        <p class="interests">{p.interests.join(' · ')}</p>
+      )}
+
+      <slot />
+
+      {(p.email || links.length > 0) && (
+        <p class="links">
+          {p.email && <a href={`mailto:${p.email}`}>Email</a>}
+          {links.map(([k, v]) => <a href={v} rel="noopener">{labels[k] ?? k}</a>)}
+        </p>
+      )}
+    </div>
+  </article>
+)}
+
+<style>
+  .person { display: grid; gap: 1rem; }
+
+  .photo { background: var(--paper-2); border-radius: 2px; overflow: hidden; }
+  .photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .photo-fallback {
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+  .photo-fallback span {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--ink-3);
+  }
+
+  .name {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  .name-zh { font-weight: 400; color: var(--ink-3); margin-left: 0.5rem; }
+  .role { font-size: var(--t-small); color: var(--ink-2); margin: 0.15rem 0 0; }
+  .interests {
+    font-size: var(--t-small);
+    color: var(--ink-3);
+    margin: 0.5rem 0 0;
+    line-height: 1.5;
+  }
+
+  .links { display: flex; flex-wrap: wrap; gap: 0.9rem; margin: 0.7rem 0 0; font-size: var(--t-small); }
+  .links a { text-decoration: none; color: var(--accent); }
+  .links a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* --- alumni line ------------------------------------------------------ */
+  .alum {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    align-items: baseline;
+    padding-block: 0.85rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--t-small);
+  }
+  .alum-name { font-weight: 550; color: var(--ink); }
+  .alum-role { color: var(--ink-2); }
+  .alum-now { color: var(--ink-3); margin-left: auto; }
+  @media (max-width: 620px) { .alum-now { margin-left: 0; flex-basis: 100%; } }
+</style>

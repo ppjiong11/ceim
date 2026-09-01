@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { contact, pi, site, url } from '../config';
+
+const mapQuery = encodeURIComponent(
+  'Hong Kong Polytechnic University, Hung Hom, Kowloon, Hong Kong'
+);
+---
+
+<Base title="Contact" description={`How to reach the ${site.name} at PolyU Biomedical Engineering.`}>
+  <PageHeader eyebrow="Contact" title="Contact" />
+
+  <div class="wrap section">
+    <div class="grid">
+      <section>
+        <h2 class="label">Address</h2>
+        <address>
+          {contact.address.map((line) => <span>{line}</span>)}
+        </address>
+        <p class="map">
+          <a
+            class="link"
+            href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+            rel="noopener"
+          >Open in Maps</a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="label">Rooms</h2>
+        <ul class="plain">
+          {contact.rooms.map((r) => (
+            <li><span class="k">{r.label}</span><span class="v">{r.value}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="label">Enquiries</h2>
+        <ul class="plain">
+          <li><span class="k">Email</span><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li>
+            <span class="k">Phone</span>
+            <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a>
+          </li>
+        </ul>
+        <p class="note">
+          Prospective students and postdocs: please read
+          {' '}<a href={url('/join')}>Join</a> before writing — it says what to
+          include, which makes a reply much more likely.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="label">Elsewhere</h2>
+        <ul class="plain">
+          <li><a href={pi.polyuProfile} rel="noopener">PolyU staff profile</a></li>
+          <li><a href={pi.scholarsHub} rel="noopener">PolyU Scholars Hub</a></li>
+          <li><a href={pi.scholar} rel="noopener">Google Scholar</a></li>
+          <li><a href={site.institutionUrl} rel="noopener">Department of Biomedical Engineering</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 5vw, 5rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    max-width: 62rem;
+  }
+
+  .label {
+    font-family: var(--font-body);
+    font-size: var(--t-micro);
+    font-weight: 550;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.1rem;
+  }
+
+  address { font-style: normal; display: grid; gap: 0.2rem; color: var(--ink-2); }
+
+  ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  ul.plain li { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; }
+  .k {
+    flex: 0 0 4.5rem;
+    font-size: var(--t-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-top: 0.2rem;
+  }
+  .v { color: var(--ink-2); }
+  ul.plain a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  ul.plain a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .map { margin-top: 1.5rem; }
+  .note {
+    margin-top: 1.5rem;
+    font-size: var(--t-small);
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+</style>

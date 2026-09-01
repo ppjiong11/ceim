@@ -1,0 +1,137 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { pi, site } from '../config';
+
+const entries = (await getCollection('openings', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const openings = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
+);
+---
+
+<Base
+  title="Join"
+  description="Postdoc, PhD, MPhil and research assistant positions in the Chang Lab at PolyU Biomedical Engineering."
+>
+  <PageHeader
+    eyebrow="Join"
+    title="Come and build something that does not exist yet."
+    lead="The lab is new, which means the people who join now shape what it becomes. We take people from biology, engineering, chemistry and materials science — what matters is curiosity and the willingness to learn the parts you do not already know."
+  />
+
+  <div class="wrap section">
+    <div class="layout">
+      <div class="roles">
+        {openings.map(({ entry, Content }) => (
+          <section class="role">
+            <div class="role-head">
+              <h2>{entry.data.title}</h2>
+              <span class:list={['status', entry.data.open ? 'open' : 'closed']}>
+                {entry.data.open ? 'Open' : 'No current vacancy'}
+              </span>
+            </div>
+            <div class="prose role-body"><Content /></div>
+            {entry.data.deadline && <p class="deadline">Deadline: {entry.data.deadline}</p>}
+          </section>
+        ))}
+      </div>
+
+      <aside class="how">
+        <h2 class="aside-title">How to apply</h2>
+        <p>Email {pi.displayName} with:</p>
+        <ol>
+          <li>A CV, including your publication list.</li>
+          <li>
+            A short note — a paragraph is enough — on what you want to work on and
+            why this lab.
+          </li>
+          <li>Contact details for two referees.</li>
+        </ol>
+        <p>
+          Please put the position in the subject line. A generic mass email is
+          easy to spot and usually goes unanswered.
+        </p>
+        <p class="mail"><a class="link" href={`mailto:${pi.email}`}>{pi.email}</a></p>
+
+        <p class="note">
+          Formal admission for research postgraduate places runs through
+          {' '}{site.institution}, not the lab directly. Contact us first — we can
+          tell you whether the fit is there before you spend time on an application.
+        </p>
+      </aside>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr) minmax(0, 22rem); }
+  }
+
+  .role { padding-block: 2rem; border-top: 1px solid var(--rule); }
+  .role:first-child { border-top: 0; padding-top: 0; }
+
+  .role-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .role-head h2 { font-size: var(--t-h3); }
+  .status {
+    font-size: var(--t-micro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.55rem;
+    border-radius: 2px;
+  }
+  .status.open { color: var(--accent); background: var(--accent-wash); }
+  .status.closed { color: var(--ink-3); background: var(--paper-2); }
+
+  .role-body { font-size: var(--t-small); color: var(--ink-2); }
+
+  .deadline { margin-top: 0.9rem; font-size: var(--t-small); color: var(--accent); }
+
+  .how {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    font-size: var(--t-small);
+    color: var(--ink-2);
+    position: sticky;
+    top: 6rem;
+  }
+  @media (max-width: 899px) { .how { position: static; } }
+
+  .aside-title {
+    font-family: var(--font-body);
+    font-size: var(--t-micro);
+    font-weight: 550;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.1rem;
+  }
+  .how ol { padding-left: 1.15em; margin: 0 0 1.1em; }
+  .how li { margin-bottom: 0.45em; }
+  .mail { margin-top: 1.5rem; }
+  .note {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--t-micro);
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+</style>

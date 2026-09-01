@@ -1,0 +1,239 @@
+# ============================================================================
+# Publications
+#
+# One entry per paper. Wrap lab members' names in ** ** so they render bold.
+# `featured: true` pulls a paper onto the homepage.
+#
+# SEEDED FROM Europe PMC — NOT YET VERIFIED BY THE LAB.
+# "Chang Y" is a common name; entries were filtered to those co-authored with
+# X. Bao, C. Dong or X. Lian. The list is incomplete (the PolyU profile cites
+# 40+ papers). Replace wholesale from a .bib export. See CONTENT-TODO.md.
+# ============================================================================
+
+- id: car-neutrophils-in-vivo-glioma-2026
+  title: CAR-neutrophils produced in vivo to treat glioma
+  authors: ['**Yun Chang**', 'Kunlun Shao', 'Hanyi Li', 'Gyuhyung Jin', 'R. Timothy Bentley', 'Cheng Dong', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Nature Biomedical Engineering
+  year: 2026
+  doi: 10.1038/s41551-026-01656-0
+  type: article
+  featured: true
+  summary: >-
+    Generating CAR-neutrophils directly inside the body, removing the need to
+    manufacture and infuse engineered cells.
+
+- id: fitc-folate-bispecific-adapter-car-cocktail-2025
+  title: Novel strategy for tumor immunotherapy using FITC-folate bispecific adapter bridged CAR immune cell cocktails
+  authors: ['Bowen Liu', 'Jiaming Shen', 'Yuxuan Wu', 'Xiaoping Bao', 'Cheng Dong', '**Yun Chang**']
+  journal: Bioactive Materials
+  year: 2025
+  doi: 10.1016/j.bioactmat.2025.06.025
+  type: article
+  featured: true
+  summary: >-
+    A universal adapter lets one engineered cell product be redirected against
+    different tumour antigens without re-engineering the cells.
+
+- id: car-neutrophil-nanodrug-glioblastoma-2023
+  title: CAR-neutrophil mediated delivery of tumor-microenvironment responsive nanodrugs for glioblastoma chemo-immunotherapy
+  authors: ['**Yun Chang**', 'Xiaoyu Cai', 'Ramizah Syahirah', 'Yueyang Yao', 'Gyuhyung Jin', 'Qing Deng', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Nature Communications
+  year: 2023
+  volume: '14'
+  pages: '2266'
+  doi: 10.1038/s41467-023-37872-4
+  type: article
+  featured: true
+  summary: >-
+    Engineered neutrophils used as living carriers, ferrying drug-loaded
+    nanoparticles across the blood–brain barrier into glioblastoma.
+
+- id: car-neutrophils-hpsc-2022
+  title: Engineering chimeric antigen receptor neutrophils from human pluripotent stem cells for targeted cancer immunotherapy
+  authors: ['**Yun Chang**', 'Ramizah Syahirah', 'Xuepeng Wang', 'Gyuhyung Jin', 'Qing Deng', 'Hal E. Broxmeyer', 'Xiaoping Bao']
+  journal: Cell Reports
+  year: 2022
+  volume: '40'
+  pages: '111128'
+  doi: 10.1016/j.celrep.2022.111128
+  type: article
+  featured: true
+  summary: >-
+    The first CAR-neutrophils differentiated from human pluripotent stem cells —
+    a renewable, off-the-shelf source of engineered innate immune cells.
+
+- id: pd-l1-memory-nk-2023
+  title: Engineered human pluripotent stem cell-derived natural killer cells with PD-L1 responsive immunological memory for enhanced immunotherapeutic efficacy
+  authors: ['**Yun Chang**', 'Gyuhyung Jin', 'Wenjie Luo', 'Qi Luo', 'Philip S. Low', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Bioactive Materials
+  year: 2023
+  volume: '27'
+  pages: '168-180'
+  doi: 10.1016/j.bioactmat.2023.03.018
+  type: article
+
+- id: hemogenic-endothelium-2022
+  title: Chemically-defined generation of human hemogenic endothelium and definitive hematopoietic progenitor cells
+  authors: ['**Yun Chang**', 'Ramizah Syahirah', 'Stephanie N. Oprescu', 'Xuepeng Wang', 'Shihuan Kuang', 'Hal E. Broxmeyer', 'Qing Deng', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Biomaterials
+  year: 2022
+  volume: '285'
+  pages: '121569'
+  doi: 10.1016/j.biomaterials.2022.121569
+  type: article
+
+- id: pluripotent-road-immunoengineering-2023
+  title: A pluripotent road to immunoengineering
+  authors: ['**Yun Chang**', 'Qing Deng', 'Xiaoping Bao']
+  journal: Nature Reviews Bioengineering
+  year: 2023
+  doi: 10.1038/s44222-023-00056-2
+  type: review
+
+- id: adoptive-car-multimodal-2024
+  title: Advancements in adoptive CAR immune cell immunotherapy synergistically combined with multimodal approaches for tumor treatment
+  authors: ['**Yun Chang**', 'Mingyang Chang', 'Xiaoping Bao', 'Cheng Dong']
+  journal: Bioactive Materials
+  year: 2024
+  doi: 10.1016/j.bioactmat.2024.08.046
+  type: review
+
+- id: engineered-hematopoietic-immune-cells-2023
+  title: Engineered hematopoietic and immune cells derived from human pluripotent stem cells
+  authors: ['**Yun Chang**', 'Sydney N. Hummel', 'Juhyung Jung', 'Gyuhyung Jin', 'Qing Deng', 'Xiaoping Bao']
+  journal: Experimental Hematology
+  year: 2023
+  doi: 10.1016/j.exphem.2023.08.006
+  type: review
+
+- id: ipsc-regenerative-aging-2025
+  title: Induced pluripotent stem cells-based regenerative therapies in treating human aging-related functional decline and diseases
+  authors: ['Peng Yu', 'Bowen Liu', 'Cheng Dong', '**Yun Chang**']
+  journal: Cells
+  year: 2025
+  volume: '14'
+  pages: '619'
+  doi: 10.3390/cells14080619
+  type: review
+
+- id: hsc-aging-rejuvenation-2025
+  title: 'Hematopoietic stem cell aging: mechanisms, microenvironment influences, and rejuvenation strategies'
+  authors: ['Jiaxin Cui', 'Xin Li', 'Bowen Liu', 'Cheng Dong', '**Yun Chang**']
+  journal: Bioengineering
+  year: 2025
+  volume: '12'
+  pages: '1166'
+  doi: 10.3390/bioengineering12111166
+  type: review
+
+- id: car-macrophages-glioblastoma-2023
+  title: Generation of chimeric antigen receptor macrophages from human pluripotent stem cells to target glioblastoma
+  authors: ['Gyuhyung Jin', '**Yun Chang**', 'Xiaoping Bao']
+  journal: Immuno-Oncology Technology
+  year: 2023
+  doi: 10.1016/j.iotech.2023.100409
+  type: article
+
+- id: id2-nk-differentiation-2022
+  title: Temporal expression of transcription factor ID2 improves natural killer cell differentiation from human pluripotent stem cells
+  authors: ['Juhyung Jung', '**Yun Chang**', 'Gyuhyung Jin', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: ACS Synthetic Biology
+  year: 2022
+  doi: 10.1021/acssynbio.2c00017
+  type: article
+
+- id: anti-prostate-car-neutrophils-2023
+  title: Engineered anti-prostate cancer CAR-neutrophils from human pluripotent stem cells
+  authors: ['Jared D. Harris', '**Yun Chang**', 'Ramizah Syahirah', 'Xiaojun Lian', 'Qing Deng', 'Xiaoping Bao']
+  journal: Journal of Immunology and Regenerative Medicine
+  year: 2023
+  doi: 10.1016/j.regen.2023.100074
+  type: article
+
+- id: adoptive-immunotherapy-hpsc-perspective-2023
+  title: 'Adoptive immunotherapy: a human pluripotent stem cell perspective'
+  authors: ['Gyuhyung Jin', '**Yun Chang**', 'Jared D. Harris', 'Xiaoping Bao']
+  journal: Cells Tissues Organs
+  year: 2023
+  doi: 10.1159/000528838
+  type: review
+
+- id: star-protocol-hspc-2023
+  title: Chemically defined generation of human definitive hematopoietic stem and progenitor cells
+  authors: ['Juhyung Jung', '**Yun Chang**', 'Gyuhyung Jin', 'Qing Deng', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: STAR Protocols
+  year: 2023
+  doi: 10.1016/j.xpro.2022.101953
+  type: protocol
+
+- id: auricular-reconstruction-2026
+  title: Unconventional auricular reconstruction using controlled scaffold buckling and chondrogenic cocktail containing muscle-derived cells
+  authors: ['Ning Huang', '**Yun Chang**', 'Chunyi Wen', 'Cheng Dong', 'Chuanbin Mao', 'Dai Fei Elmer Ker']
+  journal: Bioactive Materials
+  year: 2026
+  doi: 10.1016/j.bioactmat.2026.05.049
+  type: article
+
+- id: emt-ferroptosis-crc-2025
+  title: Hybrid EMT phenotype and cell membrane tension promote colorectal cancer resistance to ferroptosis
+  authors: ['Xiaoyu Wei', 'Yiyao Ge', '**Yun Chang**', 'Youhua Tan', 'Qiong Jia']
+  journal: Advanced Science
+  year: 2025
+  doi: 10.1002/advs.202413882
+  type: article
+
+- id: sox17-fgf2-endothelial-2024
+  title: Direct programming of human pluripotent stem cells into endothelial progenitors with SOX17 and FGF2
+  authors: ['Mathew W. Ream', 'Lauren N. Randolph', 'Yuqian Jiang', '**Yun Chang**', 'Xiaoping Bao', 'Xiaojun Lian']
+  journal: Stem Cell Reports
+  year: 2024
+  doi: 10.1016/j.stemcr.2024.02.006
+  type: article
+
+- id: crispr-piggybac-2022
+  title: Robust genome and RNA editing via CRISPR nucleases in PiggyBac systems
+  authors: ['Yuqian Jiang', 'R. C. Hoenisch', '**Yun Chang**', 'Xiaoping Bao', 'Craig E. Cameron', 'Xiaojun Lian']
+  journal: Bioactive Materials
+  year: 2022
+  doi: 10.1016/j.bioactmat.2022.01.046
+  type: article
+
+- id: cardiac-organoids-wnt-2022
+  title: Wnt signaling directs human pluripotent stem cells into vascularized cardiac organoids with chamber-like structures
+  authors: ['Pei-Yu Liang', '**Yun Chang**', 'Gyuhyung Jin', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Frontiers in Bioengineering and Biotechnology
+  year: 2022
+  doi: 10.3389/fbioe.2022.1059243
+  type: article
+
+- id: liquid-crystal-open-surfaces-2022
+  title: Modularizable liquid-crystal-based open surfaces enable programmable chemical transport and feeding using liquid droplets
+  authors: ['Yun Xu', '**Yun Chang**', 'Yueyang Yao', 'Mengmeng Zhang', 'Xiaoping Bao', 'Xiaoguang Wang']
+  journal: Advanced Materials
+  year: 2022
+  doi: 10.1002/adma.202108788
+  type: article
+
+- id: optogenetic-cardiomyocytes-2022
+  title: 'Optogenetic control of engrafted human induced pluripotent stem cell-derived cardiomyocytes in live mice: a proof-of-concept study'
+  authors: ['Jyotsna Joshi', 'Bo Xu', 'Michael Rubart', '**Yun Chang**', 'Xiaoping Bao', 'Wuqiang Zhu']
+  journal: Cells
+  year: 2022
+  doi: 10.3390/cells11060951
+  type: article
+
+- id: optogenetic-cardiovascular-patterning-2021
+  title: Optogenetic-mediated cardiovascular differentiation and patterning of human pluripotent stem cells
+  authors: ['Phillip B. Hellwarth', '**Yun Chang**', 'Anwesha Das', 'Pei-Yu Liang', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Advanced Genetics
+  year: 2021
+  doi: 10.1002/ggn2.202100011
+  type: article
+
+- id: cell-cycle-indicators-2020
+  title: Fluorescent indicators for continuous and lineage-specific reporting of cell-cycle phases in human pluripotent stem cells
+  authors: ['**Yun Chang**', 'Phillip B. Hellwarth', 'Lauren N. Randolph', 'Yuxin Sun', 'Wuqiang Zhu', 'Xiaojun Lian', 'Xiaoping Bao']
+  journal: Biotechnology and Bioengineering
+  year: 2020
+  doi: 10.1002/bit.27352
+  type: article

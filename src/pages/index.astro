@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Publication from '../components/Publication.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { site, hero, url } from '../config';
+
+const research = (await getCollection('research', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const featured = (await getCollection('publications', ({ data }) => data.featured))
+  .sort((a, b) => b.data.year - a.data.year);
+
+const news = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Base>
+  <!-- ============ hero ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">{site.department} · {site.institutionShort}</span>
+      <h1>{hero.headline}</h1>
+      <p class="hero-sub">{hero.subhead}</p>
+      <a class="link hero-cta" href={url(hero.ctaHref)}>{hero.ctaLabel}</a>
+    </div>
+  </section>
+
+  <!-- ============ research ============ -->
+  <section class="section band">
+    <div class="wrap">
+      <span class="eyebrow">Research</span>
+      <div class="thrusts">
+        {research.map((r) => (
+          <article class="thrust">
+            <h2>{r.data.title}</h2>
+            <p>{r.data.blurb}</p>
+          </article>
+        ))}
+      </div>
+      <p class="more"><a class="link" href={url('/research')}>All research</a></p>
+    </div>
+  </section>
+
+  <!-- ============ selected publications ============ -->
+  {featured.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">Selected publications</span>
+        <div class="pubs">
+          {featured.map((p) => <Publication pub={p.data} detailed />)}
+        </div>
+        <p class="more"><a class="link" href={url('/publications')}>All publications</a></p>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ news ============ -->
+  {news.length > 0 && (
+    <section class="section band">
+      <div class="wrap">
+        <span class="eyebrow">News</span>
+        <div class="news">
+          {news.map((n) => <NewsCard item={n} />)}
+        </div>
+        <p class="more"><a class="link" href={url('/news')}>All news</a></p>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ join ============ -->
+  <section class="section join">
+    <div class="wrap">
+      <h2>We are recruiting.</h2>
+      <p class="lead measure">
+        Postdocs, PhD students and research assistants — from stem cell biology,
+        immunology, materials science and engineering alike.
+      </p>
+      <p class="more"><a class="link" href={url('/join')}>Positions in the lab</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* --- hero -------------------------------------------------------------- */
+  .hero {
+    padding-block: clamp(4rem, 2rem + 10vw, 9rem) clamp(3.5rem, 2rem + 7vw, 7rem);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero h1 {
+    font-size: var(--t-hero);
+    max-width: 17ch;
+    letter-spacing: -0.028em;
+  }
+  .hero-sub {
+    font-size: var(--t-lead);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 54ch;
+    margin: clamp(1.5rem, 3vw, 2.25rem) 0 clamp(1.75rem, 3vw, 2.5rem);
+  }
+  .hero-cta { font-size: var(--t-lead); }
+
+  /* --- bands ------------------------------------------------------------- */
+  .band { background: var(--paper-2); border-block: 1px solid var(--rule); }
+  .section + .section { margin-top: 0; }
+
+  /* --- research thrusts -------------------------------------------------- */
+  .thrusts {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+  .thrust { border-top: 2px solid var(--accent); padding-top: 1.25rem; }
+  .thrust h2 { font-size: var(--t-h3); margin-bottom: 0.6rem; }
+  .thrust p { color: var(--ink-2); font-size: var(--t-small); line-height: 1.6; }
+
+  /* --- shared ------------------------------------------------------------ */
+  .more { margin: clamp(2rem, 4vw, 3rem) 0 0; }
+  .pubs, .news { border-bottom: 1px solid var(--rule); }
+
+  .join h2 { font-size: var(--t-h2); margin-bottom: 1rem; }
+</style>

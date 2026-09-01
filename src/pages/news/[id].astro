@@ -1,0 +1,59 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../config';
+
+export const getStaticPaths = (async () => {
+  const news = await getCollection('news', ({ data }) => !data.draft);
+  return news.map((item) => ({ params: { id: item.id }, props: { item } }));
+}) satisfies GetStaticPaths;
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+
+const dateLabel = item.data.date.toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+
+<Base title={item.data.title} description={item.data.summary} image={item.data.image}>
+  <article class="wrap-n post">
+    <p class="back"><a href={url('/news')} class="link-plain">← News</a></p>
+
+    <header>
+      <time datetime={item.data.date.toISOString().slice(0, 10)}>{dateLabel}</time>
+      <h1>{item.data.title}</h1>
+      {item.data.summary && <p class="lead">{item.data.summary}</p>}
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {item.data.link && (
+      <p class="external">
+        <a class="link" href={item.data.link} rel="noopener">Read the paper</a>
+      </p>
+    )}
+  </article>
+</Base>
+
+<style>
+  .post { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem) var(--section); }
+  .back { font-size: var(--t-small); color: var(--ink-3); margin-bottom: 2.5rem; }
+
+  header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+  time {
+    display: block;
+    font-size: var(--t-micro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.9rem;
+  }
+  h1 { font-size: var(--t-h1); }
+  .lead { margin-top: 1.2rem; }
+
+  .external { margin-top: 3rem; }
+</style>

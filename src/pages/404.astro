@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { nav, url } from '../config';
+---
+
+<Base title="Page not found">
+  <div class="wrap notfound">
+    <span class="eyebrow">404</span>
+    <h1>That page is not here.</h1>
+    <p class="lead measure">It may have been renamed, or the link may be old.</p>
+    <ul class="links">
+      <li><a class="link" href={url('/')}>Home</a></li>
+      {nav.map((item) => <li><a class="link" href={url(item.href)}>{item.label}</a></li>)}
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .notfound { padding-block: clamp(4rem, 2rem + 8vw, 8rem) var(--section); }
+  h1 { font-size: var(--t-h1); margin-bottom: 1.2rem; }
+  .links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+  }
+</style>

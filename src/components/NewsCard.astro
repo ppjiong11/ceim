@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../config';
+
+interface Props { item: CollectionEntry<'news'>; }
+const { item } = Astro.props;
+const n = item.data;
+
+const dateLabel = n.date.toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const href = url(`/news/${item.id}`);
+---
+
+<article class="news-card">
+  <time datetime={n.date.toISOString().slice(0, 10)}>{dateLabel}</time>
+  <h3><a href={href} class="link-plain">{n.title}</a></h3>
+  {n.summary && <p class="summary">{n.summary}</p>}
+</article>
+
+<style>
+  .news-card { padding-block: 1.6rem; border-top: 1px solid var(--rule); }
+  time {
+    display: block;
+    font-size: var(--t-micro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.55rem;
+  }
+  h3 {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: 550;
+    letter-spacing: 0;
+    line-height: 1.4;
+  }
+  .summary {
+    margin: 0.45rem 0 0;
+    font-size: var(--t-small);
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+</style>

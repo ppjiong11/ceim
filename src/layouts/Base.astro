@@ -1,0 +1,63 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, url } from '../config';
+
+interface Props {
+  /** Page title. The lab name is appended automatically. */
+  title?: string;
+  description?: string;
+  /** Path to an OG image, relative to /public. */
+  image?: string;
+  /** Suppress the site name suffix — used on the homepage. */
+  bareTitle?: boolean;
+}
+
+const { title, description, image, bareTitle = false } = Astro.props;
+
+const pageTitle = !title
+  ? `${site.name} — ${site.longName}`
+  : bareTitle
+    ? title
+    : `${title} · ${site.name}`;
+
+const pageDescription = description ?? site.description;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com');
+const ogImage = image ? new URL(url(image), canonical) : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical.href} />
+    {ogImage && <meta property="og:image" content={ogImage.href} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#FBFAF8" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

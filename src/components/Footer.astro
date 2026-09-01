@@ -1,0 +1,103 @@
+---
+import { site, pi, contact, nav, url } from '../config';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="grid">
+      <div class="identity">
+        <p class="name">{site.name}</p>
+        <p class="long">{site.longName}</p>
+        <p class="pi">{pi.displayName} · Principal Investigator</p>
+      </div>
+
+      <div class="col">
+        <h2 class="col-title">Find us</h2>
+        <address>
+          {contact.address.map((line) => <span>{line}</span>)}
+        </address>
+      </div>
+
+      <div class="col">
+        <h2 class="col-title">Contact</h2>
+        <ul class="plain">
+          <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a></li>
+          <li><a href={pi.scholar} rel="noopener">Google Scholar</a></li>
+          <li><a href={site.institutionUrl} rel="noopener">{site.institutionShort} BME</a></li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <h2 class="col-title">Pages</h2>
+        <ul class="plain">
+          {nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="baseline">
+      <p>© {year} {site.name}, {site.department}, {site.institution}.</p>
+      <p class="colophon">Built with Astro. Source on GitHub.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: var(--section);
+    padding-block: clamp(3rem, 1.5rem + 5vw, 5rem) 2.5rem;
+    background: var(--paper-2);
+    font-size: var(--t-small);
+    color: var(--ink-2);
+  }
+
+  .grid {
+    display: grid;
+    gap: 2.5rem clamp(1.5rem, 4vw, 4rem);
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+  .identity { grid-column: span 1; }
+  @media (min-width: 900px) { .identity { grid-column: span 1; } }
+
+  .name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+  }
+  .long { margin-bottom: 0.6rem; }
+  .pi { color: var(--ink-3); margin: 0; }
+
+  .col-title {
+    font-family: var(--font-body);
+    font-size: var(--t-micro);
+    font-weight: 550;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 1rem;
+  }
+
+  address { font-style: normal; display: grid; gap: 0.15rem; }
+
+  ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+  ul.plain a, address a { text-decoration: none; }
+  ul.plain a:hover { color: var(--accent); }
+
+  .baseline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--t-micro);
+    color: var(--ink-3);
+  }
+  .baseline p { margin: 0; }
+</style>
