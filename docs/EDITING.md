@@ -24,7 +24,7 @@
 | 想改的东西 | 文件 |
 |---|---|
 | 加一篇论文 | `src/content/publications.yaml` |
-| 加一个成员 | `src/content/people/` 下新建文件 |
+| 加一个成员（学生/博后） | `src/content/people/` 下新建文件 |
 | 发一条新闻 | `src/content/news/` 下新建文件 |
 | 改研究方向的介绍 | `src/content/research/` 下对应文件 |
 | 改招聘信息 | `src/content/openings/` 下对应文件 |
@@ -75,19 +75,56 @@ order: 10
 photo: /images/people/zhang-san.jpg
 email: zhang.san@connect.polyu.hk
 joined: '2026'
+supervisors:
+  - yun-chang
 interests:
   - CAR-NK cells
   - Biomaterials
 draft: false
 ---
 
-一两句话介绍：在实验室做什么，之前在哪里。
+一两句话介绍：做什么，之前在哪里。
 ```
 
-- `role` 决定他出现在哪一组，可填：`pi` `postdoc` `phd` `mphil` `ra` `visiting` `undergrad` `staff`
-- `order` 数字越小排越前
+### 关键的两个字段
+
+**`supervisors`（跟哪位老师）** —— 决定这个人出现在 People 页的哪一节。填**导师的
+文件名去掉 `.md`**，现在可选的是：
+
+| 填什么 | 对应老师 |
+|---|---|
+| `cheng-dong` | 董澄 |
+| `yun-chang` | Yun Chang |
+| `man-ting-au` | Man Ting Au |
+| `bingyang-dai` | Bingyang Dai |
+
+联合指导就写多个，这个人会**同时出现在两个组里**：
+
+```yaml
+supervisors:
+  - yun-chang
+  - bingyang-dai
+```
+
+> 名字**写错会导致构建失败**，Actions 里会明确告诉你哪个文件、哪个字段、错在哪个值。
+> 这是故意的 —— 总比悄悄把学生分到错的老师名下强。构建失败时**网站还是旧版本，
+> 不会挂掉**，改对再提交就行。
+
+不填 `supervisors` 的人会被归到页面最后的「Group members」。
+
+**`role`（职务）** —— 决定在导师那一节里排在哪一小组：
+
+`postdoc` 博后 · `phd` 博士 · `mphil` 硕士 · `ra` 研究助理 ·
+`visiting` 访问学者 · `undergrad` 本科生 · `staff` 行政
+
+（`director` 和 `pi` 是老师专用的，学生不要填。）
+
+### 其他说明
+
+- `order` 数字越小排越前（在同一个小组内）
 - **`draft: false` 一定要设**，写 `true` 的话页面上不会显示
-- 毕业离开的人：把 `alumnus: true` 加上，再写 `now: 现在在哪`，他会自动移到 Alumni 那一栏，不用删
+- 毕业离开的人：加 `alumnus: true` 再写 `now: 现在在哪`，他会自动移到页面底部的
+  Alumni 那一栏，**不用删文件**
 
 ### 照片规格（很重要）
 

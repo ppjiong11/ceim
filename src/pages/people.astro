@@ -5,16 +5,18 @@ import PageHeader from '../components/PageHeader.astro';
 import PersonCard from '../components/PersonCard.astro';
 import { url } from '../config';
 
+type Person = Awaited<ReturnType<typeof getCollection<'people'>>>[number];
+
 const everyone = await getCollection('people', ({ data }) => !data.draft);
 
-const byOrder = (a: typeof everyone[number], b: typeof everyone[number]) =>
+const byOrder = (a: Person, b: Person) =>
   a.data.order - b.data.order || a.data.name.localeCompare(b.data.name);
 
 const current = everyone.filter((p) => !p.data.alumnus).sort(byOrder);
 const alumni = everyone.filter((p) => p.data.alumnus).sort(byOrder);
 
 /** Faculty get their full bio rendered; everyone else gets a card. */
-const withBio = async (entry: typeof everyone[number]) => ({
+const withBio = async (entry: Person) => ({
   entry,
   Content: (await render(entry)).Content,
 });
@@ -22,24 +24,52 @@ const withBio = async (entry: typeof everyone[number]) => ({
 const director = current.find((p) => p.data.role === 'director');
 const Director = director ? await withBio(director) : null;
 
-const pis = await Promise.all(
-  current.filter((p) => p.data.role === 'pi').map(withBio)
-);
+const piEntries = current.filter((p) => p.data.role === 'pi');
+const pis = await Promise.all(piEntries.map(withBio));
 
-/** Role groups below faculty, in page order. */
-const groups = [
+/** Everyone who is not faculty, i.e. who belongs under a supervisor. */
+const isFaculty = (p: Person) => p.data.role === 'director' || p.data.role === 'pi';
+const members = current.filter((p) => !isFaculty(p));
+
+/** Role groups within each supervisor's section, in display order. */
+const roleLabels = [
   { role: 'postdoc',   label: 'Postdoctoral Fellows' },
-  { role: 'phd',       label: 'PhD Students' },
   { role: 'mphil',     label: 'MPhil Students' },
+  { role: 'phd',       label: 'PhD Students' },
   { role: 'ra',        label: 'Research Assistants' },
   { role: 'visiting',  label: 'Visiting Researchers' },
   { role: 'undergrad', label: 'Undergraduate Researchers' },
   { role: 'staff',     label: 'Staff' },
 ] as const;
 
-const populated = groups
-  .map((g) => ({ ...g, members: current.filter((p) => p.data.role === g.role) }))
-  .filter((g) => g.members.length > 0);
+// PhD before MPhil reads better, but keep the array order authoritative.
+const roleOrder = ['postdoc', 'phd', 'mphil', 'ra', 'visiting', 'undergrad', 'staff'];
+const roles = [...roleLabels].sort(
+  (a, b) => roleOrder.indexOf(a.role) - roleOrder.indexOf(b.role)
+);
+
+const groupByRole = (people: Person[]) =>
+  roles
+    .map((r) => ({ ...r, people: people.filter((p) => p.data.role === r.role) }))
+    .filter((r) => r.people.length > 0);
+
+/** Supervisor sections, in the same order the faculty appear above. */
+const facultyOrder = [...(director ? [director] : []), ...piEntries];
+
+const supervised = facultyOrder
+  .map((f) => {
+    const theirs = members.filter((m) =>
+      m.data.supervisors.some((s) => s.id === f.id)
+    );
+    return { faculty: f, roleGroups: groupByRole(theirs) };
+  })
+  .filter((g) => g.roleGroups.length > 0);
+
+/** Anyone whose supervisor is unset or points outside the faculty. */
+const placed = new Set(
+  supervised.flatMap((g) => g.roleGroups.flatMap((r) => r.people.map((p) => p.id)))
+);
+const unplaced = groupByRole(members.filter((m) => !placed.has(m.id)));
 ---
 
 <Base title="People" description="Faculty, researchers and students of the group.">
@@ -48,9 +78,7 @@ const populated = groups
   {Director && (
     <section class="wrap faculty lead-faculty">
       <div class="faculty-grid director">
-        <div class="portrait">
-          <PersonCard person={Director.entry} />
-        </div>
+        <div class="portrait"><PersonCard person={Director.entry} /></div>
         <div class="prose bio">
           <h2 class="rank">{Director.entry.data.title}</h2>
           <Director.Content />
@@ -61,31 +89,48 @@ const populated = groups
 
   {pis.length > 0 && (
     <section class="wrap faculty">
-      <h2 class="group-title">Principal Investigators</h2>
+      <h2 class="section-label">Principal Investigators</h2>
       {pis.map(({ entry, Content }) => (
         <div class="faculty-grid pi">
-          <div class="portrait">
-            <PersonCard person={entry} />
+          <div class="portrait"><PersonCard person={entry} /></div>
+          <div class="prose bio"><Content /></div>
+        </div>
+      ))}
+    </section>
+  )}
+
+  {supervised.map(({ faculty, roleGroups }) => (
+    <section class="wrap team">
+      <h2 class="team-title">
+        {faculty.data.name}<span class="team-title-suffix">group</span>
+      </h2>
+      {roleGroups.map((r) => (
+        <div class="role-block">
+          <h3 class="role-label">{r.label}</h3>
+          <div class="people-grid">
+            {r.people.map((p) => <PersonCard person={p} />)}
           </div>
-          <div class="prose bio">
-            <Content />
+        </div>
+      ))}
+    </section>
+  ))}
+
+  {unplaced.length > 0 && (
+    <section class="wrap team">
+      <h2 class="team-title">Group members</h2>
+      {unplaced.map((r) => (
+        <div class="role-block">
+          <h3 class="role-label">{r.label}</h3>
+          <div class="people-grid">
+            {r.people.map((p) => <PersonCard person={p} />)}
           </div>
         </div>
       ))}
     </section>
   )}
 
-  {populated.map((group) => (
-    <section class="wrap group">
-      <h2 class="group-title">{group.label}</h2>
-      <div class="people-grid">
-        {group.members.map((p) => <PersonCard person={p} />)}
-      </div>
-    </section>
-  ))}
-
-  {populated.length === 0 && (
-    <section class="wrap group">
+  {members.length === 0 && (
+    <section class="wrap team">
       <p class="empty">
         Student and postdoc profiles will appear here — see
         {' '}<a href={url('/join')}>Join</a>.
@@ -94,8 +139,8 @@ const populated = groups
   )}
 
   {alumni.length > 0 && (
-    <section class="wrap group">
-      <h2 class="group-title">Alumni</h2>
+    <section class="wrap team">
+      <h2 class="team-title">Alumni</h2>
       <ul class="alumni">
         {alumni.map((p) => <PersonCard person={p} compact />)}
       </ul>
@@ -104,10 +149,11 @@ const populated = groups
 </Base>
 
 <style>
+  /* --- faculty ----------------------------------------------------------- */
   .faculty { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
   .faculty + .faculty,
-  .faculty + .group,
-  .group + .group { border-top: 1px solid var(--rule); }
+  .faculty + .team,
+  .team + .team { border-top: 1px solid var(--rule); }
 
   .faculty-grid {
     display: grid;
@@ -119,8 +165,6 @@ const populated = groups
     .director { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
     .pi       { grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); }
   }
-
-  /* Each PI gets their own band so the bios do not run together. */
   .pi + .pi { margin-top: 2.75rem; padding-top: 2.75rem; border-top: 1px solid var(--rule); }
 
   .director .portrait { max-width: 20rem; }
@@ -135,13 +179,10 @@ const populated = groups
     color: var(--accent);
     margin: 0 0 1.25rem;
   }
-
   .bio { font-size: var(--t-body); }
   .pi .bio { font-size: var(--t-small); color: var(--ink-2); }
 
-  .group { padding-block: clamp(2rem, 1rem + 3vw, 3.5rem); }
-
-  .group-title {
+  .section-label {
     font-family: var(--font-body);
     font-size: var(--t-micro);
     font-weight: 550;
@@ -151,10 +192,42 @@ const populated = groups
     margin: 0 0 2rem;
   }
 
+  /* --- supervisor sections ----------------------------------------------- */
+  .team { padding-block: clamp(2.25rem, 1rem + 3.5vw, 4rem); }
+
+  /* Named after the supervisor, so it carries more weight than a role label. */
+  .team-title {
+    font-size: var(--t-h3);
+    margin: 0 0 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent);
+  }
+  .team-title-suffix {
+    font-family: var(--font-body);
+    font-size: var(--t-micro);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-left: 0.6rem;
+    vertical-align: 0.25em;
+  }
+
+  .role-block + .role-block { margin-top: 2.5rem; }
+  .role-label {
+    font-family: var(--font-body);
+    font-size: var(--t-micro);
+    font-weight: 550;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 1.25rem;
+  }
+
   .people-grid {
     display: grid;
     gap: clamp(1.75rem, 3vw, 2.75rem);
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 175px), 1fr));
   }
 
   .alumni { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); }

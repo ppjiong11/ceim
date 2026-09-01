@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 
 /**
@@ -77,6 +77,19 @@ const people = defineCollection({
         website: optionalUrl,
       })
       .default({}),
+    /**
+     * Which investigator(s) this person works with — the filename of their
+     * profile without .md, e.g. `yun-chang`. List more than one for
+     * co-supervision and the person appears under each.
+     *
+     * Validated against the people collection: a typo fails the build rather
+     * than silently filing someone under the wrong supervisor. A failed build
+     * leaves the previously deployed site up, so this is the safe direction.
+     *
+     * Leave empty for the faculty themselves.
+     */
+    supervisors: z.array(reference('people')).default([]),
+
     /** Alumni: set `alumnus: true` and fill `now` with where they went. */
     alumnus: z.boolean().default(false),
     now: optionalText,
